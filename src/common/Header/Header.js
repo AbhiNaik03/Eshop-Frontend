@@ -117,6 +117,7 @@ export default function Header(props) {
                     setRole(data.role);
                     window.alert("Login Successfull");
                     closeLoginModal();
+                    navigate('/products');
                 }
                 else {
                     window.alert("Invalid Credentials");
@@ -144,6 +145,7 @@ export default function Header(props) {
                     setLogin(false);
                     setRole(sessionStorage.getItem("role"));
                     window.alert("Logout Successfull");
+                    navigate('/');
                 }
             }
         });
@@ -209,19 +211,53 @@ export default function Header(props) {
     function onChangeSearchBar(e) {
         let name = e.target.value;
         console.log(name);
+        
+        if (props.setProductsData === undefined) {
+            return;
+        }
 
-        let xhr = new XMLHttpRequest();
+        if (name === "") {
+            let xhr = new XMLHttpRequest();
 
 
-        xhr.addEventListener("readystatechange", function() {
-            if (this.readyState === 4) {
-                console.log(this.responseText);
-            }
-        });
+            xhr.addEventListener("readystatechange", function() {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
 
-        xhr.open("GET", props.baseURL + `products?name=${name}&category=${name}`);
+                    let data = JSON.parse(this.responseText);
 
-        xhr.send();
+                    props.setProductsData(data);
+                    props.setSort("default");
+                    props.setTabCategory("All");
+
+                }
+            });
+
+            xhr.open("GET", props.baseURL + `products`);
+
+            xhr.send();
+        }
+        else {
+            let xhr = new XMLHttpRequest();
+
+
+            xhr.addEventListener("readystatechange", function() {
+                if (this.readyState === 4) {
+                    console.log(this.responseText);
+
+                    let data = JSON.parse(this.responseText);
+
+                    props.setProductsData(data);
+                    props.setSort("default");
+                    props.setTabCategory("All");
+                }
+            });
+
+            xhr.open("GET", props.baseURL + `products?name=${name}`);
+
+            xhr.send();
+        }
+        
     }
 
     return (
