@@ -58,11 +58,15 @@ export default function Details(props) {
     function onClickOrderBtn() {
         let quantity = document.getElementById("product-quantity").value;
         
-        if (quantity > productsData[0].availableItems) {
+        if (Number.parseInt(quantity) === 0 || quantity === "") {
+            alert("Please add minimum 1 quantity in cart");
+        }
+        else if (quantity > productsData[0].availableItems) {
             alert("Please add lesser quantity than availabel items");
         }
         else {
             alert("Added to Cart");
+            navigate(`/orders?id=${id}&quantity=${quantity}`)
         }
     }
 
