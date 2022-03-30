@@ -9,12 +9,10 @@ export default function Details(props) {
     const isLogin = sessionStorage.getItem("token")==null? false: true;
     const search = useLocation().search;
     const id = new URLSearchParams(search).get('id');
-    console.log(id);
     const navigate = useNavigate();
     const [productsData, setProductsData] = React.useState([]);
     const [categoriesData, setCategoriesData] = React.useState([]);
     const [tabCategory, setTabCategory] = React.useState('All');
-    console.log(productsData);
 
     const tabsHandleChange = (event, newCategory) => {
         navigate('/products');
@@ -26,7 +24,6 @@ export default function Details(props) {
 
         xhrCategory.addEventListener("readystatechange", function() {
             if (this.readyState === 4) {
-                console.log(this.responseText);
 
                 let data = JSON.parse(this.responseText);
 
@@ -42,8 +39,6 @@ export default function Details(props) {
 
         xhrProduct.addEventListener("readystatechange", function() {
             if (this.readyState === 4) {
-                console.log(this.responseText);
-
                 let data = JSON.parse(this.responseText);
 
                 setProductsData(data);
